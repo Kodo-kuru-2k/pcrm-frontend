@@ -7,6 +7,7 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import UserPage from './pages/UserPage';
 import COEPage from './pages/COEPage';
 import AdminPage from './pages/AdminPage';
+import Form from "./components/Form";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route path = "/forgot" element = {<ForgotPasswordPage/>}/>
         <Route path = "/usrlog" element = {<UserPage/>}/>
         <Route path = "/adminlog" element = {<AdminPage/>}/>
+        <Route path = "/test" element = {<Form/>}/>
+        
       </Routes>
     </div>
   );

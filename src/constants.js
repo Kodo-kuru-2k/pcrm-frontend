@@ -1,4 +1,9 @@
-export const baseUrl='https://7dd7-2405-201-e033-e05c-29a4-63b8-8a10-681c.in.ngrok.io'
-export const headers = {
-    'content-type' : 'application/json'
+export const baseUrl='http://localhost:5000'
+export let headers = {
+    'content-type': 'application/json',
+    'Access-Control-Allow-Origin': `${baseUrl}`,
+    'Authorization': ''
 }
+export let user_type ={
+    'type':''
+};

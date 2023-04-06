@@ -1,19 +1,39 @@
 import React, { Component }  from 'react';
 import axios from 'axios';
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { baseUrl, headers } from '../constants';
+import { Link ,Navigate} from "react-router-dom";
+import { baseUrl, headers, user_type} from '../constants';
 const LoginPage = ()=>{
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [auth,setAuth] = useState(false)
     const signIn = async (email, password) => {
-        const body = {
+        /*const body = {
             "email":email,
             "password":password
+        }*/
+        const body = {
+            "email":"19pt28@psgtech.ac.in",
+            "password":"password123"
         }
-    const response  = await axios.post(`${baseUrl}/login`,body,headers);
-    console.log(response)
+    const response= await axios.post(`${baseUrl}/login`,body,headers);
+        console.log(response)
+        user_type['type'] = response.data['user']
+        headers['Authorization'] = "Bearer " + response.data['access_token']
+        if(response.status >= 200 && response.status <= 300)
+        setAuth(true)
+        // console.log(response.data['access_token'])
+        console.log(headers)
+        console.log(user_type)
+
     }
+
+    console.log(document.cookie)
+    if (auth) {
+        const type = user_type['type'];
+        return <Navigate replace to={`${type==='User'?"/usrlog":type==='PowerUser'?"/coe":type==='Admin'?"/adminlog":""}`} ></Navigate>
+    }
+    else
     return (
         <div className = "bg-white font-xl h-screen w-screen flex flex-col items-center justify-center">
             <div className = "w-[40vw] h-[75vh] bg-purple-300 border border-4 flex flex-col items-center border-stone-950">
