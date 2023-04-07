@@ -1,10 +1,15 @@
+import axios from 'axios';
 import React, { Component }  from 'react';
 import {useState} from "react";
 import { Link } from "react-router-dom";
+import { baseUrl, headers } from '../constants';
 
 const ForgotPasswordPage = ()=>{
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const recover = async() => {
+        const response = await axios.get(`${baseUrl}/forgot-password?email_id=${email}`,headers);
+    }
 
     return(
         <div className = "bg-white font-xl h-screen w-screen flex flex-col items-center justify-center">
@@ -20,6 +25,7 @@ const ForgotPasswordPage = ()=>{
 
                 <div className = "bg-purple-900 font-semibold text-white w-[12vw] h-[5vh] mt-[10vh] flex flex-col items-center justify-center rounded-md hover:bg-purple-700 hover:cursor-pointer ease-in duration-200"
                 onClick={()=>{
+                    recover()
                     //redirect credentials to login page according to the user's privilege
                 }}
                 >
