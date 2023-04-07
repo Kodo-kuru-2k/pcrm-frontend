@@ -13,13 +13,15 @@ const LoginPage = ()=>{
             "password":password
         }*/
         const body = {
-            "email":"19pt28@psgtech.ac.in",
+            "email":"ecampus@psgtech.ac.in",
+            // "email":"suku1612@gmail.com",
+            // "email":"19pt28@psgtech.ac.in",
             "password":"password123"
         }
     const response= await axios.post(`${baseUrl}/login`,body,headers);
         console.log(response)
         user_type['type'] = response.data['user']
-        headers['Authorization'] = "Bearer " + response.data['access_token']
+        headers.headers['Authorization'] = "Bearer " + response.data['access_token']
         if(response.status >= 200 && response.status <= 300)
         setAuth(true)
         // console.log(response.data['access_token'])

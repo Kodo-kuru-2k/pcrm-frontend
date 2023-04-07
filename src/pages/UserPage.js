@@ -5,16 +5,21 @@ import { Link } from "react-router-dom";
 import UserReport from "../components/UserReport";
 import { baseUrl, headers, user_type} from '../constants';
 import TopBar from '../components/TopBar';
+import Form from '../components/Form';
 
 const UserPage = ()=>{
 
     const [flag,setFlag] = useState(true)
+    const [load,setLoaded] = useState(false)
     const [reports,setReports] = useState([])
+    const [recentReport,setRecentReport] = useState({})
     useEffect(()=>{
         const getData = async ()=>{
-            const response = await axios.get(`${baseUrl}/users/submitted-reports`,{headers:headers});
+            const response = await axios.get(`${baseUrl}/users/submitted-reports`,headers);
             setReports(response.data)
-            console.log(JSON.parse(response.data[0]["report"]))
+            
+            setRecentReport(JSON.parse(response.data[0]["report"]))
+            setLoaded(true)
         }
         getData();
         
@@ -41,9 +46,12 @@ return (
             <p className="mt-[7vh] font-fjalla text-xl tracking-normal">Due Date: </p>
             <p className="mt-[7vh] font-fjalla text-xl tracking-normal">Remaining days: </p>
         </div>
-        <div className="w-[60vw] h-[70vh] border-black border-2"></div>
+        <div className="w-[60vw] h-[80vh] border-black border-2 ">
+            {load && <Form report = {recentReport} id = {reports[0]['report_id']}/>}
+        </div>
             <div className="flex px-[8vw] justify-between w-full">
-            <Link to= "/usrlog" className = "bg-purple-900 font-semibold text-white w-[12vw] h-[5vh] mt-[10vh] flex flex-col items-center justify-center rounded-md hover:bg-purple-700 hover:cursor-pointer ease-in duration-200"
+                
+            {/* <Link to= "/usrlog" className = "bg-purple-900 font-semibold text-white w-[12vw] h-[5vh] mt-[10vh] flex flex-col items-center justify-center rounded-md hover:bg-purple-700 hover:cursor-pointer ease-in duration-200"
                 onClick={()=>{
                     
                     //redirect credentials to login page according to the user's privilege
@@ -56,7 +64,7 @@ return (
                     //redirect credentials to login page according to the user's privilege
                 }}>
                 <p>Save as Draft</p>
-            </Link>
+            </Link> */}
         </div>
     </div>}
     {!flag && <div className = "flex flex-col w-[70vw] items-center ">

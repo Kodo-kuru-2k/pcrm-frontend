@@ -1,11 +1,14 @@
 import React, { Component }  from 'react';
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import AdminUserReport from "../components/AdminUserReport";
 import AdminCOEReport from "../components/AdminCOEReport";
 import AdminPUReport from "../components/AdminPUReport";
 import TopBar from "../components/TopBar";
 import ModalUser from '../components/ModalUser';
+import { baseUrl, headers } from '../constants';
+import axios from 'axios';
+import ModalCOE from '../components/ModalCOE';
 
 
 
@@ -13,6 +16,38 @@ const AdminPage = () => {
 
     const [flag, setFlag] = useState(0)
     const [userflag, setUFlag] = useState(false)
+    const [reports, setReports] = useState([])
+    const [coes, setCOES] = useState([])
+    const [users, setUsers] = useState([])
+    
+    
+
+    useEffect(()=>{
+        const getData = async ()=>{
+            const response = await axios.get(`${baseUrl}/admin/all-reports`,headers);
+            //console.log(response)
+            setReports(response.data)
+        }
+        getData();    
+    },[])
+
+    useEffect(()=>{
+        const getData = async ()=>{
+            const response = await axios.get(`${baseUrl}/admin/all-coe`,headers);
+            console.log(response)
+            setCOES(response.data)
+        }
+        getData();
+    },[])
+
+    useEffect(()=>{
+        const getData = async ()=>{
+            const response = await axios.get(`${baseUrl}/admin/all-users`,headers);
+            //console.log(response)
+            setUsers(response.data)
+        }
+        getData();
+    },[])
 
     return (
         <div className = 'flex flex-col'>
@@ -27,25 +62,20 @@ const AdminPage = () => {
 
             {flag===0 && <div className="flex flex-col items-center ">
                 
-                <AdminUserReport/>
-                <AdminUserReport/>
-                <AdminUserReport/>
-                <AdminUserReport/>
-                <AdminUserReport/>
+                {reports.map((r)=><AdminUserReport id = {r["report_id"]} submissionDate = {r["submission_date"]} dueDate = {r["due_date"]} status = {r["report_status"]}/>)}
 
             </div>}
 
             {flag===1 && <div className="flex flex-col items-center mt-[1vh]">
-                <div className = 'rounded-md border-2 border-black w-[15vw] h-[12vh] flex text-xl font-inter items-center justify-center'>
-                    Create New COE
-                </div>
-                <AdminCOEReport/>
-                <AdminCOEReport/>
-                <AdminCOEReport/>
-                <AdminCOEReport/>
-                <AdminCOEReport/>
-                <AdminCOEReport/>
+                {userflag && <ModalCOE/>}
+                    <div className = {`rounded-md border-2 border-black w-[15vw] h-[12vh] flex text-xl font-inter items-center justify-center ${!userflag?"visible":"hidden"}`}
+                    onClick={()=>{setUFlag(true)}}>
+                        Create New COE
+                    </div>
+                {coes.map((r)=><AdminCOEReport id = {r["center_id"]} name = {r["center_name"]} purpose = {r["purpose"]} sponsor = {r["sponsor"]} dept_name = {r["department_name"]}/>)}
             </div>}
+
+
             {flag===2 && <div className="flex flex-col items-center mt-[1vh]">
                 {userflag && <ModalUser/>}
                     <div className = 'rounded-md border-2 border-black w-[15vw] h-[12vh] flex text-xl font-inter items-center justify-center'
@@ -53,12 +83,7 @@ const AdminPage = () => {
                         Create New User
                     </div>
                     <div>
-                        <AdminPUReport/>
-                    <AdminPUReport/>
-                    <AdminPUReport/>
-                    <AdminPUReport/>
-                    <AdminPUReport/>
-                    <AdminPUReport/>
+                        {users.map((r)=><AdminPUReport id = {r["emp_id"]} name = {r["name"]} email = {r["email"]} status = {r["is_active"]} permissions = {r["permissions"]}/>)}
                     </div>
                     
                 

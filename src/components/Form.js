@@ -1,20 +1,26 @@
+import axios from "axios";
 import { useState } from "react";
+import { baseUrl, headers } from "../constants";
 
-function Form() {
+function Form(props) {
   // hardware field
-  const [hardware, setHardware] = useState([
-    {
-      sno: "1",
-      description: "Computer, Dell XPS",
-      quantity: "5",
-    },
-    {
-      sno: "2",
-      description: "Printer, HP LaserJet",
-      quantity: "3",
-    },
-  ]);
+  console.log(props.report['hardware'])
+  const hw = props.report['hardware'] ?? []
+  const sw = props.report['software'] ?? []
+  const lu = props.report['laboratory_use'] ?? {}
+  const ofe = props.report['other_features'] ?? ""
+  const ndts = props.report['name_and_designation_of_technical_staff'] ?? ""
+  const ca = props.report['consultancy_activities'] ?? []
+  const ra = props.report['research_activities'] ?? {}
+  const tc = props.report['total_number_of_courses_conducted'] ?? ''
+  const tp = props.report['total_number_of_participants'] ?? ''
+  const rg = props.report['revenue_generated'] ?? '' 
 
+  
+
+  
+  const [hardware, setHardware] = useState(hw);
+  
   const handleAddRowHardware = () => {
     setHardware([...hardware, { sno: "", description: "", quantity: "" }]);
   };
@@ -34,18 +40,7 @@ function Form() {
   };
 
   // software field
-  const [software, setSoftware] = useState([
-    {
-      "sno":"1",
-      "description":"Microsoft Office, 2022",
-      "quantity":"6"
-    },
-    {
-      "sno":"2",
-      "description":"Autodesk AutoCAD, 2019",
-      "quantity":"5"
-    }
-  ]);
+  const [software, setSoftware] = useState(sw);
   const handleAddRowSoftware = () => {
     setSoftware([...software, { sno: "", description: "", quantity: "" }]);
   };
@@ -67,8 +62,8 @@ function Form() {
 
   // text input data
   const [formData, setFormData] = useState({
-    other_features: "",
-    name_and_designation_of_technical_staff: "",
+    other_features: ofe,
+    name_and_designation_of_technical_staff: ndts,
   });
 
   const handleInputChange = (event) => {
@@ -78,14 +73,8 @@ function Form() {
 
 
   // form data
-  const [labUse, setLabUse] = useState({
-    "1": ["Mon", "", "", "", "", "", "", "", ""],
-    "2": ["Tue", "", "", "", "", "", "", "", ""],
-    "3": ["Wed", "", "", "", "", "", "", "", ""],
-    "4": ["Thu", "", "", "", "", "", "", "", ""],
-    "5": ["Fri", "", "", "", "", "", "", "", ""],
-    "6": ["Sat", "", "", "", "", "", "", "", ""],
-  });
+  const [labUse, setLabUse] = useState(
+    lu);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -101,8 +90,8 @@ function Form() {
 
   //research activities test boxes
   const [researchActivities, setResearchActivities] = useState({
-    candidate_name: "",
-    supervisor: "",
+    candidate_name: ra['candidate_name'],
+    supervisor: ra['supervisor'],
   });
 
   const handleInputChangeResearchActivities = (event) => {
@@ -114,20 +103,7 @@ function Form() {
   };
 
   // consultancy
-  const [consultancy, setConsultancy] = useState([
-    {
-      sno: 1,
-      client: "ABC Company",
-      nature_of_work: "Software development",
-      revenue_generated: "10,000",
-    },
-    {
-      sno: 2,
-      client: "XYZ Corporation",
-      nature_of_work: "IT consulting",
-      revenue_generated: "20,000",
-    },
-  ]);
+  const [consultancy, setConsultancy] = useState(ca);
 
   const handleAddRowConsultancy = () => {
     const newConsultancy = [
@@ -152,9 +128,9 @@ function Form() {
 
   // final text boxes
   const [formFields, setFormFields] = useState({
-    totalCourses: "",
-    totalParticipants: "",
-    revenueGenerated: "",
+    totalCourses: tc,
+    totalParticipants: tp,
+    revenueGenerated: rg,
   });
 
   const handleInputChangeForm = (event) => {
@@ -164,18 +140,44 @@ function Form() {
 
   const handleSubmitForm = (event) => {
     event.preventDefault();
-    console.log(hardware);
-    console.log(software);
-    console.log(formData);
-    console.log(labUse);
-    console.log(researchActivities);
-    console.log(consultancy);
-    console.log(formFields);
+    // console.log(hardware);
+    // console.log(software);
+    // console.log(formData);
+    // console.log(labUse);
+    // console.log(researchActivities);
+    // console.log(consultancy);
+    // console.log(formFields);
+    console.log('gay')
+    sendData()
+
     // do something with form data, such as submit to backend
   };
 
+  const sendData = async ()=>{
+      const body = {
+        "id":props.id,
+        "report": {
+        "hardware": hardware,
+        "software": software,
+        "other_features": formData.name_and_designation_of_technical_staff,
+        "name_and_designation_of_technical_staff": formData.other_features,
+        "laboratory_use": labUse,
+        "research_activities": researchActivities,
+        "consultancy_activities": consultancy,
+        "total_number_of_courses_conducted": formFields.totalCourses,
+        "total_number_of_participants": formFields.totalParticipants,
+        "revenue_generated": formFields.revenueGenerated
+      },
+      "report_status": "Draft"
+      }
+    console.log('bro')
+    const response= await axios.patch(`${baseUrl}/users/update-report`,body,headers);
+    console.log(response.data)
+    console.log('hi')
+  }
+
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto overflow-y-scroll h-[80vh] px-[2vw]">
       <form onSubmit={handleSubmitForm}>
         <div className="py-4">
           <label className="font-bold">Hardware</label>
@@ -464,7 +466,7 @@ function Form() {
           </div>
         </div>
 
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col">
           <h1 className="text-3xl font-bold mb-8">Course Form</h1>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2" htmlFor="totalCourses">
@@ -507,7 +509,7 @@ function Form() {
             </div>
         </div>
 
-        <div className="py-2">
+        <div className="">
           <button
               type="submit"
               className="bg-blue-500 text-white py-1 px-2 rounded"

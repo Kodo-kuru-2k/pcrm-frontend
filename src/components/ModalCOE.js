@@ -2,26 +2,28 @@ import axios from "axios";
 import { useState } from "react";
 import { baseUrl, headers } from "../constants";
 
-const ModalUser = () => {
+const ModalCOE = () => {
     
     const [id, setID] = useState("")
     const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [isactive, setActive] = useState(false)
-    const [permissions, setPermissions] = useState("")
+    const [date, setDate] = useState("")
+    const [purpose, setPurpose] = useState("")
+    const [sponsor, setSponsor] = useState("")
+    const [dept, setDept] = useState("")
+    const [head,setHead] = useState("")
 
     const sendData = async()=>{
         
             const body = {
-                "emp_id":id,
-                "name": name,
-                "email": email,
-                "password": password,
-                "is_active": true,
-                "permissions": permissions
+                "center_id":id,
+                "center_name": name,
+                "establishment_date": 0,
+                "purpose": purpose,
+                "sponsor": sponsor,
+                "department_name": dept,
+                "center_incharge": head
             }
-            const response = await axios.post(`${baseUrl}/admin/create-user`,body,headers);
+            const response = await axios.post(`${baseUrl}/admin/create-ceo`,body,headers);
             console.log(response.data)
         }
     
@@ -36,7 +38,7 @@ const ModalUser = () => {
                 onChange={(e) => setID(e.target.value)}
                 type="text"
                 className="bg-white text-black border border-black border-3 w-[50vw] h-[5vh] mt-[10vh] text-center pr-2 rounded-md"
-                placeholder="Employee ID"
+                placeholder="Center ID"
                 />
                 
                 <input
@@ -44,37 +46,46 @@ const ModalUser = () => {
                 onChange={(e) => setName(e.target.value)}
                 type="text"
                 className="bg-white text-black border border-black border-3 w-[50vw] h-[5vh] mt-[10vh] text-center pr-2 rounded-md"
-                placeholder="Name"
+                placeholder="Center Name"
                 />
 
                 <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
                 type="text"
                 className="bg-white text-black border border-black border-3 w-[50vw] h-[5vh] mt-[10vh] text-center pr-2 rounded-md"
-                placeholder="Email"
+                placeholder="establishment date"
                 />
 
                 <input
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={purpose}
+                onChange={(e) => setPurpose(e.target.value)}
                 type="text"
                 className="bg-white text-black border border-black border-3 w-[50vw] h-[5vh] mt-[10vh] text-center pr-2 rounded-md"
-                placeholder="Password"
+                placeholder="Purpose"
                 />
 
-                <div className="border-black border-3 w-[20vw] h-[5vh] mt-[10vh] text-center pr-2 rounded-lg flex">
-                    <div onClick = {()=>{setActive(true)}}
-                    className={`${isactive?"bg-green-500":"bg-green-300"} rounded-md w-[10vw]`}>True</div>
-                    <div onClick = {()=>{setActive(false)}} className={`${!isactive?"bg-red-500":"bg-red-300"} rounded-md w-[10vw] `}>False</div>
-                </div>
 
                 <input
-                value={permissions}
-                onChange={(e) => setPermissions(e.target.value)}
+                value={sponsor}
+                onChange={(e) => setSponsor(e.target.value)}
                 type="text"
                 className="bg-white text-black border border-black border-3 w-[50vw] h-[5vh] mt-[10vh] text-center pr-2 rounded-md"
-                placeholder="Permissions"
+                placeholder="Sponsor"
+                />
+                <input
+                value={dept}
+                onChange={(e) => setDept(e.target.value)}
+                type="text"
+                className="bg-white text-black border border-black border-3 w-[50vw] h-[5vh] mt-[10vh] text-center pr-2 rounded-md"
+                placeholder="Dept Name"
+                />
+                <input
+                value={head}
+                onChange={(e) => setHead(e.target.value)}
+                type="text"
+                className="bg-white text-black border border-black border-3 w-[50vw] h-[5vh] mt-[10vh] text-center pr-2 rounded-md"
+                placeholder="Dept head"
                 />
                 <div  className = "bg-purple-900 font-semibold text-white w-[12vw] h-[5vh] mt-[10vh] flex flex-col items-center justify-center rounded-md hover:bg-purple-700 hover:cursor-pointer ease-in duration-200 mb-[2vh]"
                 onClick={()=>{
@@ -90,4 +101,4 @@ const ModalUser = () => {
 
 }
 
-export default ModalUser;
+export default ModalCOE;

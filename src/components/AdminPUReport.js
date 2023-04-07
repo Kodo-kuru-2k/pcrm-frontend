@@ -1,25 +1,27 @@
 import React, { Component }  from 'react';
-const AdminPUReport = () => {
+const AdminPUReport = (props) => {
     return (
         <div className = 'flex ml-[27vw] mr-[3vw]'>
             <div className = 'flex h-[12vh] border-2 border-black mt-[5vh] '>
-            <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex justify-center'>
-                    Employee ID
+            <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex justify-center flex-col items-center'>
+                    <p>Employee ID</p>
+                    <p>{props.id}</p>
                 </div>
-                <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex justify-center'>
-                    Name
+                <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex justify-center flex-col items-center'>
+                    <p>Name</p>
+                    <p>{props.name}</p>
                 </div>
-                <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex justify-center'>
-                    Email
+                <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex justify-center flex-col items-center'>
+                    <p>Email</p>
+                    <p>{props.email}</p>
                 </div>
-                <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex justify-center'>
-                    Password
+                <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex justify-center flex-col items-center'>
+                    <p>Status</p>
+                    <p>{props.status}</p>
                 </div>
-                <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex justify-center'>
-                    Is_active
-                </div>
-                <div className = 'pt-[3vh] border-r-0 border-black w-[14vw] font-inter text-xl flex justify-center'>
-                    permission
+                <div className = 'pt-[3vh] border-r-0 border-black w-[14vw] font-inter text-xl flex justify-center flex-col items-center'>
+                    <p>Permissions</p>
+                    <p>{props.permissions}</p>
                 </div>
                 
             </div>
