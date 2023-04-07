@@ -85,7 +85,7 @@ const ModalCOE = () => {
                 onChange={(e) => setHead(e.target.value)}
                 type="text"
                 className="bg-white text-black border border-black border-3 w-[50vw] h-[5vh] mt-[10vh] text-center pr-2 rounded-md"
-                placeholder="Dept head"
+                placeholder="Center incharge"
                 />
                 <div  className = "bg-purple-900 font-semibold text-white w-[12vw] h-[5vh] mt-[10vh] flex flex-col items-center justify-center rounded-md hover:bg-purple-700 hover:cursor-pointer ease-in duration-200 mb-[2vh]"
                 onClick={()=>{

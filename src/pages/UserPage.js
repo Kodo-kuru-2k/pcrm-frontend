@@ -13,12 +13,31 @@ const UserPage = ()=>{
     const [load,setLoaded] = useState(false)
     const [reports,setReports] = useState([])
     const [recentReport,setRecentReport] = useState({})
+    const [id,setId] = useState('')
     useEffect(()=>{
         const getData = async ()=>{
             const response = await axios.get(`${baseUrl}/users/submitted-reports`,headers);
             setReports(response.data)
+            // console.log(response.data)
+            // console.log('submitted')
+            // console.log(`reports ${reports}`)
             
-            setRecentReport(JSON.parse(response.data[0]["report"]))
+            // setRecentReport(JSON.parse(response.data[0]["report"]))
+            setLoaded(true)
+        }
+        getData();
+        
+        
+    },[])
+    useEffect(()=>{
+        const getData = async ()=>{
+            const response = await axios.get(`${baseUrl}/users/pending-reports`,headers);
+            // console.log(response.data)
+            // console.log('recent')
+            setRecentReport(JSON.parse(response.data[0]['report'] ?? {
+            }))
+            setId(response.data[0]['report_id'])
+            
             setLoaded(true)
         }
         getData();
@@ -47,7 +66,7 @@ return (
             <p className="mt-[7vh] font-fjalla text-xl tracking-normal">Remaining days: </p>
         </div>
         <div className="w-[60vw] h-[80vh] border-black border-2 ">
-            {load && <Form report = {recentReport} id = {reports[0]['report_id']}/>}
+            {load && reports && recentReport.length!==0 && <Form report = {recentReport} id = {id}/>}
         </div>
             <div className="flex px-[8vw] justify-between w-full">
                 
