@@ -9,6 +9,7 @@ import ModalUser from '../components/ModalUser';
 import { baseUrl, headers } from '../constants';
 import axios from 'axios';
 import ModalCOE from '../components/ModalCOE';
+import ModalReport from '../components/ModalReport';
 
 
 
@@ -61,7 +62,11 @@ const AdminPage = () => {
                 
 
             {flag===0 && <div className="flex flex-col items-center ">
-                
+                {userflag && <ModalReport/>}
+                    <div className = {`rounded-md border-2 border-black w-[15vw] h-[12vh] flex text-xl font-inter items-center justify-center ${!userflag?"visible":"hidden"}`}
+                    onClick={()=>{setUFlag(true)}}>
+                        Create New Report
+                    </div>
                 {reports.map((r)=><AdminUserReport id = {r["report_id"]} submissionDate = {r["submission_date"]} dueDate = {r["due_date"]} status = {r["report_status"]}/>)}
 
             </div>}

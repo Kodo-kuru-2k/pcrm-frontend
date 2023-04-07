@@ -5,25 +5,25 @@ import { baseUrl, headers } from "../constants";
 function Form(props) {
   // hardware field
   // console.log(props.id)
-  const hw = props.report['hardware'] ?? []
+const hw = props.report['hardware'] ?? []
   const sw = props.report['software'] ?? []
   const lu = props.report['laboratory_use'] ?? {
-    "1": ["Mon", "", "", "", "", "", "", "", ""],
-    "2": ["Tue", "", "", "", "", "", "", "", ""],
-    "3": ["Wed", "", "", "", "", "", "", "", ""],
-    "4": ["Thu", "", "", "", "", "", "", "", ""],
-    "5": ["Fri", "", "", "", "", "", "", "", ""],
-    "6": ["Sat", "", "", "", "", "", "", "", ""],
+    "1": ["Mon", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "2": ["Tue", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "3": ["Wed", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "4": ["Thu", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "5": ["Fri", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "6": ["Sat", 0, 0, 0, 0, 0, 0, 0, 0, 0],
   }
   const ofe = props.report['other_features'] ?? ""
   const ndts = props.report['name_and_designation_of_technical_staff'] ?? ""
   const ca = props.report['consultancy_activities'] ?? []
   const ra = props.report['research_activities'] ?? {}
-  const tc = props.report['total_number_of_courses_conducted'] ?? ''
-  const tp = props.report['total_number_of_participants'] ?? ''
-  const rg = props.report['revenue_generated'] ?? '' 
+  const tc = props.report['total_number_of_courses_conducted'] ?? 0
+  const tp = props.report['total_number_of_participants'] ?? 0
+  const rg = props.report['revenue_generated'] ?? 0
 
-  const [done,setDone] = useState(false);
+  const [done,setDone] = useState(0);
 
   
   const [hardware, setHardware] = useState(hw);
@@ -154,13 +154,20 @@ function Form(props) {
     // console.log(researchActivities);
     // console.log(consultancy);
     // console.log(formFields);
-    console.log('gay')
     //sendData("Submitted")
     
     // do something with form data, such as submit to backend
   };
 
   const sendData = async (report_status)=>{
+    var newLabUse = {
+       'MON': labUse['1'],
+       'TUE': labUse['2'],
+       'WED': labUse['3'],
+       'THU': labUse['4'],
+       'FRI': labUse['5'],
+       'SAT': labUse['6'],
+     }
       const body = {
         "report_id":props.id,
         "report": {
@@ -168,7 +175,7 @@ function Form(props) {
         "software": software,
         "other_features": formData.name_and_designation_of_technical_staff,
         "name_and_designation_of_technical_staff": formData.other_features,
-        "laboratory_use": labUse,
+        "laboratory_use": newLabUse,
         "research_activities": researchActivities,
         "consultancy_activities": consultancy,
         "total_number_of_courses_conducted": formFields.totalCourses,
@@ -177,10 +184,16 @@ function Form(props) {
       },
       "report_status": report_status
       }
-    // console.log('bro')
-    const response= await axios.patch(`${baseUrl}/users/update-report`,body,headers);
-    if (200<=response.status<300)
-      setDone(true)
+    // console.log('bro')e
+    try{
+      const response= await axios.patch(`${baseUrl}/users/update-report`,body,headers);
+    if (199 <response.status<300)
+      setDone(1)
+    }
+    catch(e){
+      setDone(2)
+    }
+    
     // console.log(response.data)
     // console.log('hi')
   }
@@ -522,14 +535,14 @@ function Form(props) {
           <button
           onClick={()=>{sendData("Submitted")}}
               type="submit"
-              className="bg-purple-500 text-white py-1 px-2 rounded"
+              className={`${done===0?"bg-purple-500":done===1?"bg-green-500":"bg-red-500"} text-white py-1 px-2 rounded`}
           >
             Submit
           </button>
           <button
           onClick={()=>{sendData("Draft")}}
               type="submit"
-                className={`${!done?"bg-purple-500":"bg-green-500"} text-white py-1 px-2 rounded`}
+                className={`${done===0?"bg-purple-500":done===1?"bg-green-500":"bg-red-500"} text-white py-1 px-2 rounded`}
           >
             Save as Draft
           </button>

@@ -36,9 +36,9 @@ const AdminUserReport = (props) => {
                 </div>
             </div>
             <div className = 'flex h-[12vh] mt-[5vh] ml-[2vw]'>
-                <div className = 'pt-[3vh] border-2 border-black w-[14vw] font-inter text-xl flex justify-center bg-yellow-200'>
+                {/* <div className = 'pt-[3vh] border-2 border-black w-[14vw] font-inter text-xl flex justify-center bg-yellow-200'>
                     Modify
-                </div>
+                </div> */}
                 <div onClick = {()=>{
                     deleteReport(props.id)
                 }}

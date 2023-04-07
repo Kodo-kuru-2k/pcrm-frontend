@@ -13,7 +13,7 @@ const AdminCOEReport = (props) => {
 
     }
     return (
-        <div className = {`${deleted?"hidden":"visible"} flex ml-[27vw] mr-[3vw] ${props.className}`}>
+        <div className = {`${deleted?"hidden":"visible"} flex ml-[27vw] mr-[3vw]`}>
             <div className = 'flex h-[12vh] border-2 border-black mt-[5vh] '>
             <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex flex-col items-center justify-center'>
                     <p>Center ID</p>
@@ -38,9 +38,10 @@ const AdminCOEReport = (props) => {
                 
             </div>
             <div className = 'flex h-[12vh] mt-[5vh] ml-[2vw]'>
-                <div className = 'pt-[3vh] border-2 border-black w-[14vw] font-inter text-xl flex justify-center bg-yellow-200'>
+                {/* <div className = 'pt-[3vh] border-2 border-black w-[14vw] font-inter text-xl flex justify-center bg-yellow-200'>
                     Modify
-                </div>
+                </div> */}
+                
                 <div onClick={()=>{
                     deleteCOE(props.id)
                 }} 

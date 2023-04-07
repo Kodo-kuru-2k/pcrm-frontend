@@ -1,7 +1,18 @@
-import React, { Component }  from 'react';
+import axios from 'axios';
+import React, { Component, useState }  from 'react';
+import { baseUrl, headers } from '../constants';
 const AdminPUReport = (props) => {
+    const [deleted,setDeleted] = useState(false)
+    const deleteUser  = async (id)=>{
+        const response = await axios.delete(`${baseUrl}/admin/delete-coe?center_id=${id}`,headers);
+        console.log(response.data)
+        console.log('deleted')
+        if (200<=response.status<=300)
+            setDeleted(true)
+        
+    }
     return (
-        <div className = 'flex ml-[27vw] mr-[3vw]'>
+        <div className = {`${deleted?"hidden":"visible"} flex ml-[27vw] mr-[3vw]`}>
             <div className = 'flex h-[12vh] border-2 border-black mt-[5vh] '>
             <div className = 'pt-[3vh] border-r-2 border-black w-[14vw] font-inter text-xl flex justify-center flex-col items-center'>
                     <p>Employee ID</p>
@@ -26,10 +37,12 @@ const AdminPUReport = (props) => {
                 
             </div>
             <div className = 'flex h-[12vh] mt-[5vh] ml-[2vw]'>
-                <div className = 'pt-[3vh] border-2 border-black w-[14vw] font-inter text-xl flex justify-center bg-yellow-200'>
-                    Modify
+                <div onClick={()=>{
+                    deleteUser(props.id)
+                }} 
+                className = 'pt-[3vh] border-2 ml-[1vw] border-black w-[14vw] font-inter text-xl flex justify-center bg-red-500'>
+                    Delete
                 </div>
-                
             </div>
         </div>
         

@@ -10,6 +10,7 @@ const ModalUser = () => {
     const [password, setPassword] = useState("")
     const [isactive, setActive] = useState(false)
     const [permissions, setPermissions] = useState("")
+    const [done,setDone] = useState(0)
 
     const sendData = async()=>{
         
@@ -21,8 +22,19 @@ const ModalUser = () => {
                 "is_active": true,
                 "permissions": permissions
             }
-            const response = await axios.post(`${baseUrl}/admin/create-user`,body,headers);
-            console.log(response.data)
+            try{
+                const response = await axios.post(`${baseUrl}/admin/create-user`,body,headers);
+                if (199 < response.status < 300){
+                    setDone(1)
+                            console.log(response.data)
+
+            }
+            }
+            
+            catch(e){
+                console.log('error')
+                setDone(2)
+            }
         }
     
 
@@ -76,13 +88,13 @@ const ModalUser = () => {
                 className="bg-white text-black border border-black border-3 w-[50vw] h-[5vh] mt-[10vh] text-center pr-2 rounded-md"
                 placeholder="Permissions"
                 />
-                <div  className = "bg-purple-900 font-semibold text-white w-[12vw] h-[5vh] mt-[10vh] flex flex-col items-center justify-center rounded-md hover:bg-purple-700 hover:cursor-pointer ease-in duration-200 mb-[2vh]"
+                <div  className = {`${done===0?"bg-purple-900":done===1?"bg-green-500":"bg-red-500"} font-semibold text-white w-[12vw] h-[5vh] mt-[10vh] flex flex-col items-center justify-center rounded-md hover:cursor-pointer ease-in duration-200 mb-[2vh]`}
                 onClick={()=>{
                     sendData()
                     //redirect credentials to login page according to the user's privilege
                 }}
                 >
-                <p>Submit</p>
+                <p>{done===0?"Submit":done===1?"Success":"FAIL"}</p>
                 </div>
                 </div>
         </div>
