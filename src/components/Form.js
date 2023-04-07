@@ -343,7 +343,7 @@ function Form(props) {
             </div>
         </div>
 
-        <div className="flex justify-center my-8">
+        <div className="flex my-8">
       <table className="border border-gray-400 shadow-lg rounded-lg">
         <thead>
           <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -359,7 +359,7 @@ function Form(props) {
             <th className="py-3 px-6 text-left">(5.30-6.20)</th>
           </tr>
         </thead>
-        <tbody className="text-gray-600 text-sm font-light">
+        <tbody className="text-gray-600 text-sm pl-[5vw]">
           {Object.entries(labUse).map(([time, dayValues]) => (
             <tr key={time}>
               <td className="py-3 px-6 text-left">{dayValues[0]}</td>
