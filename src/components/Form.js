@@ -8,12 +8,12 @@ function Form(props) {
   const hw = props.report['hardware'] ?? []
   const sw = props.report['software'] ?? []
   const lu = props.report['laboratory_use'] ?? {
-    "1": ["Mon", "", "", "", "", "", "", "", ""],
-    "2": ["Tue", "", "", "", "", "", "", "", ""],
-    "3": ["Wed", "", "", "", "", "", "", "", ""],
-    "4": ["Thu", "", "", "", "", "", "", "", ""],
-    "5": ["Fri", "", "", "", "", "", "", "", ""],
-    "6": ["Sat", "", "", "", "", "", "", "", ""],
+    "1": ["", "", "", "", "", "", "", "", ""],
+    "2": ["", "", "", "", "", "", "", "", ""],
+    "3": ["", "", "", "", "", "", "", "", ""],
+    "4": ["", "", "", "", "", "", "", "", ""],
+    "5": ["", "", "", "", "", "", "", "", ""],
+    "6": ["", "", "", "", "", "", "", "", ""],
   }
   const ofe = props.report['other_features'] ?? ""
   const ndts = props.report['name_and_designation_of_technical_staff'] ?? ""
@@ -161,6 +161,14 @@ function Form(props) {
   };
 
   const sendData = async (report_status)=>{
+     var newLabUse = {
+       'MON': labUse['1'],
+       'TUE': labUse['2'],
+       'WED': labUse['3'],
+       'THU': labUse['4'],
+       'FRI': labUse['5'],
+       'SAT': labUse['6'],
+     }
       const body = {
         "report_id":props.id,
         "report": {
@@ -168,7 +176,7 @@ function Form(props) {
         "software": software,
         "other_features": formData.name_and_designation_of_technical_staff,
         "name_and_designation_of_technical_staff": formData.other_features,
-        "laboratory_use": labUse,
+        "laboratory_use": newLabUse,
         "research_activities": researchActivities,
         "consultancy_activities": consultancy,
         "total_number_of_courses_conducted": formFields.totalCourses,
@@ -337,7 +345,7 @@ function Form(props) {
             </div>
         </div>
 
-        <div className="flex justify-center my-8">
+        <div className="flex my-8">
       <table className="border border-gray-400 shadow-lg rounded-lg">
         <thead>
           <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -353,7 +361,7 @@ function Form(props) {
             <th className="py-3 px-6 text-left">(5.30-6.20)</th>
           </tr>
         </thead>
-        <tbody className="text-gray-600 text-sm font-light">
+        <tbody className="text-gray-600 text-sm pl-[5vw]">
           {Object.entries(labUse).map(([time, dayValues]) => (
             <tr key={time}>
               <td className="py-3 px-6 text-left">{dayValues[0]}</td>
