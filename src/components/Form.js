@@ -8,20 +8,20 @@ function Form(props) {
   const hw = props.report['hardware'] ?? []
   const sw = props.report['software'] ?? []
   const lu = props.report['laboratory_use'] ?? {
-    "1": ["", "", "", "", "", "", "", "", ""],
-    "2": ["", "", "", "", "", "", "", "", ""],
-    "3": ["", "", "", "", "", "", "", "", ""],
-    "4": ["", "", "", "", "", "", "", "", ""],
-    "5": ["", "", "", "", "", "", "", "", ""],
-    "6": ["", "", "", "", "", "", "", "", ""],
+    "1": ["Mon", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "2": ["Tue", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "3": ["Wed", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "4": ["Thu", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "5": ["Fri", 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "6": ["Sat", 0, 0, 0, 0, 0, 0, 0, 0, 0],
   }
   const ofe = props.report['other_features'] ?? ""
   const ndts = props.report['name_and_designation_of_technical_staff'] ?? ""
   const ca = props.report['consultancy_activities'] ?? []
   const ra = props.report['research_activities'] ?? {}
-  const tc = props.report['total_number_of_courses_conducted'] ?? ''
-  const tp = props.report['total_number_of_participants'] ?? ''
-  const rg = props.report['revenue_generated'] ?? '' 
+  const tc = props.report['total_number_of_courses_conducted'] ?? 0
+  const tp = props.report['total_number_of_participants'] ?? 0
+  const rg = props.report['revenue_generated'] ?? 0
 
   const [done,setDone] = useState(false);
 
