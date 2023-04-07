@@ -1010,6 +1010,10 @@ video {
   padding-top: 3vh;
 }
 
+.pl-\[5vw\] {
+  padding-left: 5vw;
+}
+
 .text-left {
   text-align: left;
 }
