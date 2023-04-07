@@ -23,7 +23,7 @@ function Form(props) {
   const tp = props.report['total_number_of_participants'] ?? ''
   const rg = props.report['revenue_generated'] ?? '' 
 
-  
+  const [done,setDone] = useState(false);
 
   
   const [hardware, setHardware] = useState(hw);
@@ -177,10 +177,12 @@ function Form(props) {
       },
       "report_status": report_status
       }
-    console.log('bro')
+    // console.log('bro')
     const response= await axios.patch(`${baseUrl}/users/update-report`,body,headers);
-    console.log(response.data)
-    console.log('hi')
+    if (200<=response.status<300)
+      setDone(true)
+    // console.log(response.data)
+    // console.log('hi')
   }
 
   return (
@@ -520,14 +522,14 @@ function Form(props) {
           <button
           onClick={()=>{sendData("Submitted")}}
               type="submit"
-              className="bg-blue-500 text-white py-1 px-2 rounded"
+              className="bg-purple-500 text-white py-1 px-2 rounded"
           >
             Submit
           </button>
           <button
           onClick={()=>{sendData("Draft")}}
               type="submit"
-              className="bg-blue-500 text-white py-1 px-2 rounded"
+                className={`${!done?"bg-purple-500":"bg-green-500"} text-white py-1 px-2 rounded`}
           >
             Save as Draft
           </button>
